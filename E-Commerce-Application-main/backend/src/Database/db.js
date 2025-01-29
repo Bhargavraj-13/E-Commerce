@@ -4,8 +4,7 @@ const connectDB = async (url) => {
         await connect(url)
         console.log('Connected to the database');
     } catch (error) {
-        console.error('Error connecting to the database');
-        console.error(error);
+        console.log('Error connecting to the database');
     }
 }
 module.exports = {connectDB};

@@ -1,24 +1,29 @@
-const express = require('express');
-const { connectDB } = require('./src/Database/db');
-const app = express();
+let express = require('express');
+const connectDB = require('./src/Database/db');
+const userrouter = require('./src/controllers/user');
+let app = express();
+
+app.use(express.json());
 
 require('dotenv').config({
-    path: './src/config/.env'
+    path:'./src/Config/.env'
 });
-const port = process.env.PORT || 8080;
+const PORT = process.env.port || 5000;
 const url = process.env.db_url;
 
-app.listen(port, async() => {
+app.get('/', (req, res) => {
+    res.send('Welcome to E-commerce Backend');
+})
 
-  try{
-    await connectDB(url);
-    console.log(`Server is running on port ${port}`);
-  }
-  catch(error){
-    console.error(error);
-  }
-});
+app.use('/auth', userrouter);
 
-app.get('/', (req, res) => {    
-    res.send('Hello World!');
-});
+app.listen(PORT, async() => {
+    try{
+        await connectDB(url);
+        console.log(`Server is running on port ${PORT}`);
+    }
+    catch(error){
+        console.log('Error connecting to database');
+    }
+
+})
